@@ -7,7 +7,7 @@ dotenv.config();
 // connectDb function will return a promise
 connectDb()
   .then(() => {
-    app.listen(process.env.PORT, (params) => {
+    app.listen(process.env.PORT, () => {
       console.log(`App is listening on Port : ${process.env.PORT}`);
     });
   })
