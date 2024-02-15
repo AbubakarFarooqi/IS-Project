@@ -54,7 +54,9 @@ const loginUser = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Password is not correct");
   }
 
-  const accessToken = user.generateAccessToken();
+  const accessToken = await user.generateAccessToken();
+
+  console.log(accessToken);
 
   const cookieOptions = {
     secure: true,
