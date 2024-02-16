@@ -78,4 +78,28 @@ const loginUser = asyncHandler(async (req, res) => {
     );
 });
 
-export { registerUser, loginUser };
+const updateUser = asyncHandler(async (req, res) => {
+  const { name, oldPassword, newPassword } = req.body;
+  if (!name && !oldPassword && !newPassword) {
+    throw new ApiError(401, "userController :No field is given");
+  }
+  const user = await User.findById(req.userId);
+
+  console.log(user);
+
+  if (oldPassword || newPassword) {
+    if (!(await user.isCorrectPassword(oldPassword))) {
+      throw new ApiError(401, "userController :Password is not correct");
+    }
+    user.password = newPassword;
+  }
+
+  if (name !== user.name) {
+    user.name = name;
+  }
+
+  await user.save();
+
+  res.status(200).json(new ApiResponse(200, user, "Data has been updated"));
+});
+export { registerUser, loginUser, updateUser };
