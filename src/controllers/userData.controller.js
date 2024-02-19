@@ -21,7 +21,7 @@ const addUserData = asyncHandler(async (req, res) => {
     email,
   });
 
-  res.status(200).json(
+  return res.status(200).json(
     new ApiResponse(
       200,
       {
@@ -69,9 +69,23 @@ const updateUserData = asyncHandler(async (req, res) => {
     await userDataInstance.save();
   }
 
-  res
+  return res
     .status(200)
     .json(new ApiResponse(200, userDataInstance, "User data updated"));
 });
 
-export { addUserData };
+const getUserData = asyncHandler(async (req, res) => {
+  const userId = req.user._id;
+
+  const userData = await UserData.find({ userId: userId });
+
+  if (!userData) {
+    throw new ApiError(401, "No data found");
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, userData, "user data fetched successfully"));
+});
+
+export { addUserData, updateUserData, getUserData };

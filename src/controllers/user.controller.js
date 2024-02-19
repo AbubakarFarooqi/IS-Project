@@ -101,13 +101,15 @@ const updateUser = asyncHandler(async (req, res) => {
 
   await user.save();
 
-  res.status(200).json(new ApiResponse(200, user, "Data has been updated"));
+  return res
+    .status(200)
+    .json(new ApiResponse(200, user, "Data has been updated"));
 });
 
 const getCurrentUser = asyncHandler(async (req, res) => {
   const user = req.user;
 
-  res
+  return res
     .status(200)
     .json(new ApiResponse(200, user, "Current user returned successfully"));
 });
