@@ -23,9 +23,14 @@ export const verifyJwt = (req, _, next) => {
       throw new ApiError(401, "InvalidToken");
     }
 
-    req.userId = verifiedToken._id;
-    console.log(verifiedToken._id);
-    console.log(req.userId);
+    const user = {
+      _id: verifiedToken._id,
+      name: verifiedToken.name,
+      email: verifiedToken.email,
+    };
+    req.user = verifiedToken.user;
+    console.log(verifiedToken.user);
+    console.log(req.user);
 
     next();
   } catch (error) {

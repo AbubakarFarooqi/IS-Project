@@ -11,8 +11,8 @@ const addUserData = asyncHandler(async (req, res) => {
   }
 
   // user id
-  console.log("azan ", req.userId);
-  const userId = req.userId;
+  console.log("azan ", req.user._id);
+  const userId = req.user._id;
 
   const createdEntry = await UserData.create({
     userId,
@@ -40,7 +40,7 @@ const updateUserData = asyncHandler(async (req, res) => {
     throw new ApiError(401, "Provide Some information");
   }
 
-  const userId = req.userId;
+  const userId = req.user._id;
 
   const userDataInstance = await UserData.findById(_id);
 

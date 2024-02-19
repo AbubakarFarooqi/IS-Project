@@ -83,7 +83,8 @@ const updateUser = asyncHandler(async (req, res) => {
   if (!name && !oldPassword && !newPassword) {
     throw new ApiError(401, "userController :No field is given");
   }
-  const user = await User.findById(req.userId);
+  const userId = req.user._id;
+  const user = await User.findById(userId);
 
   console.log(user);
 
@@ -103,4 +104,12 @@ const updateUser = asyncHandler(async (req, res) => {
   res.status(200).json(new ApiResponse(200, user, "Data has been updated"));
 });
 
-export { registerUser, loginUser, updateUser };
+const getCurrentUser = asyncHandler(async (req, res) => {
+  const user = req.user;
+
+  res
+    .status(200)
+    .json(new ApiResponse(200, user, "Current user returned successfully"));
+});
+
+export { registerUser, loginUser, updateUser, getCurrentUser };
