@@ -102,4 +102,5 @@ const updateUser = asyncHandler(async (req, res) => {
 
   res.status(200).json(new ApiResponse(200, user, "Data has been updated"));
 });
+
 export { registerUser, loginUser, updateUser };

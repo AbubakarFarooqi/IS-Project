@@ -33,4 +33,45 @@ const addUserData = asyncHandler(async (req, res) => {
   );
 });
 
+const updateUserData = asyncHandler(async (req, res) => {
+  const { _id, accountName, email, password } = req.body;
+
+  if (!(accountName && email && password && _id)) {
+    throw new ApiError(401, "Provide Some information");
+  }
+
+  const userId = req.userId;
+
+  const userDataInstance = await UserData.findById(_id);
+
+  if (!userDataInstance) {
+    throw new ApiError(401, "Account not found");
+  }
+
+  var isAnyFieldChanged = false;
+
+  if (userDataInstance.email !== email) {
+    userDataInstance.email = email;
+    isAnyFieldChanged = true;
+  }
+
+  if (!userDataInstance.isCorrectPassword(password)) {
+    userDataInstance.password = password;
+    isAnyFieldChanged = true;
+  }
+
+  if (userDataInstance.accountName !== accountName) {
+    userDataInstance.accountName = accountName;
+    isAnyFieldChanged = true;
+  }
+
+  if (isAnyFieldChanged) {
+    await userDataInstance.save();
+  }
+
+  res
+    .status(200)
+    .json(new ApiResponse(200, userDataInstance, "User data updated"));
+});
+
 export { addUserData };
