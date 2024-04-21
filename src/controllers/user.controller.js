@@ -72,6 +72,7 @@ const loginUser = asyncHandler(async (req, res) => {
         {
           _id: user._id,
           email: user.email,
+          name: user.name
         },
         "user loged in"
       )
@@ -108,6 +109,7 @@ const updateUser = asyncHandler(async (req, res) => {
 
 const getCurrentUser = asyncHandler(async (req, res) => {
   const user = req.user;
+  console.log("In get current user function");
 
   return res
     .status(200)

@@ -36,7 +36,7 @@ const addUserData = asyncHandler(async (req, res) => {
 const updateUserData = asyncHandler(async (req, res) => {
   const { _id, accountName, email, password } = req.body;
 
-  if (!(accountName && email && password && _id)) {
+  if (!(accountName || email || password || _id)) {
     throw new ApiError(401, "Provide Some information");
   }
 

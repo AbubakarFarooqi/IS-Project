@@ -28,8 +28,7 @@ export const verifyJwt = (req, _, next) => {
       name: verifiedToken.name,
       email: verifiedToken.email,
     };
-    req.user = verifiedToken.user;
-    console.log(verifiedToken.user);
+    req.user = user;
     console.log(req.user);
 
     next();

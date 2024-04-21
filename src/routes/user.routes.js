@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+  getCurrentUser,
   loginUser,
   registerUser,
   updateUser,
@@ -11,6 +12,7 @@ const userRouter = Router();
 userRouter.route("/register").post(registerUser);
 userRouter.route("/login").post(loginUser);
 userRouter.route("/update").post(verifyJwt, updateUser);
+userRouter.route("/current-user").get(verifyJwt, getCurrentUser);
 
 //secure route
 
