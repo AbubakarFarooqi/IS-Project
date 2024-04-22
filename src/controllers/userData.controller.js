@@ -88,4 +88,35 @@ const getUserData = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, userData, "user data fetched successfully"));
 });
 
-export { addUserData, updateUserData, getUserData };
+const changeFavourite = asyncHandler(async (req, res) => {
+  const userId = req.user._id;
+  const userData = await UserData.find({ userId: userId });
+  var isAnyFieldChanged = false;
+
+  if (!userData) {
+    throw new ApiError(401, "No data found");
+  }
+  else{
+    if(userData.important === false)
+    {
+      userData.important = true;
+      isAnyFieldChanged = true;
+    }
+    else{
+      userData.important = false;
+      isAnyFieldChanged = true;
+    }
+  }
+
+  if (isAnyFieldChanged) {
+    await userDataInstance.save();
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, userDataInstance, "User data updated"));
+});
+
+
+export { addUserData, updateUserData, getUserData, changeFavourite };
+

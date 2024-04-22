@@ -6,7 +6,7 @@ dotenv.config();
 const connectDb = async () => {
   try {
     const connectionInstance = await mongoose.connect(
-      `${process.env.DB_URI}/${process.env.DB_NAME}`
+      `${process.env.DB_URL}`
     );
 
     console.log(
