@@ -9,29 +9,34 @@ const registerUser = asyncHandler(async (req, res) => {
   if (!name || !password || !email) {
     throw new ApiError(401, "userController :Provide All user information");
   }
-  console.log("1");
   const isUserExist = await User.findOne({ email });
-  console.log("1");
-
   if (isUserExist) {
+    console.log("User does not exist")
     throw new ApiError(401, "userController :User already Registered");
   }
-  console.log("1");
   await User.create({
     name: name,
     email: email,
     password: password,
   });
-  console.log("2");
 
   const createdUser = await User.findOne({ email }).select("-password");
-
+  
   if (!createdUser) {
     throw new ApiError(500, "userController :Error in creating user");
   }
+  console.log("User Is stored in DB")
+  const accessToken = await createdUser.generateAccessToken();
 
+  console.log("This is Access token of registered User"+accessToken);
+
+  const cookieOptions = {
+    secure: true,
+    httpOnly: true,
+  };
   return res
     .status(200)
+    .cookie("accessToken", accessToken, cookieOptions)
     .json(new ApiResponse(200, createdUser, "User has been registered"));
 });
 
@@ -56,7 +61,7 @@ const loginUser = asyncHandler(async (req, res) => {
 
   const accessToken = await user.generateAccessToken();
 
-  console.log(accessToken);
+  console.log("This access token is generated in logging in User un Login FUnction of user.controller file"+accessToken);
 
   const cookieOptions = {
     secure: true,
@@ -64,7 +69,8 @@ const loginUser = asyncHandler(async (req, res) => {
   };
 
   return res
-    .status(200)
+  .status(200)
+  .header('Access-Control-Allow-Credentials', true)
     .cookie("accessToken", accessToken, cookieOptions)
     .json(
       new ApiResponse(
