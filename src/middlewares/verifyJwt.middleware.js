@@ -10,6 +10,7 @@ export const verifyJwt = (req, _, next) => {
       req.cookies?.accessToken.toString() ||
       req.header("Authorization")?.replace("Bearer ", "");
     console.log(incommingToken);
+    console.log("azan ali far")
     if (!incommingToken) {
       throw new ApiError(401, "Token not found");
     }
