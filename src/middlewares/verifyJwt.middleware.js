@@ -6,11 +6,9 @@ dotenv.config();
 
 export const verifyJwt = (req, _, next) => {
   try {
-    console.log(req.cookies)
     const incommingToken =
       req.cookies?.accessToken.toString() ||
       req.header("Authorization")?.replace("Bearer ", "");
-    console.log(incommingToken);
     if (!incommingToken) {
       throw new ApiError(401, "Token not found");
     }
@@ -30,7 +28,6 @@ export const verifyJwt = (req, _, next) => {
       email: verifiedToken.email,
     };
     req.user = user;
-    console.log(req.user);
 
     next();
   } catch (error) {

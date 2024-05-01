@@ -5,9 +5,9 @@ import ApiError from "../utilis/ApiError";
 dotenv.config();
 const connectDb = async () => {
   try {
-    console.log(`${process.env.DB_URI}/${process.env.DB_NAME}`)
     const connectionInstance = await mongoose.connect(
-      `${process.env.DB_URI}/${process.env.DB_NAME}`
+      `${process.env.DB_URL}`
+      //`${process.env.DB_URI}/${process.env.DB_NAME}`
     );
 
     console.log(

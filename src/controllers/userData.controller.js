@@ -89,7 +89,7 @@ const getUserData = asyncHandler(async (req, res) => {
 });
 
 const changeFavourite = asyncHandler(async (req, res) => {
-  const userId = req.user._id;
+  const userId = req.body._id;
   const userData = await UserData.find({ userId: userId });
   var isAnyFieldChanged = false;
 
